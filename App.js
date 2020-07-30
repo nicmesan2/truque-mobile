@@ -1,4 +1,6 @@
 import React from 'react'
+import jwtDecode from 'jwt-decode'
+import axios from 'axios'
 import * as eva from '@eva-design/eva'
 import { ApplicationProvider, IconRegistry } from '@ui-kitten/components'
 import { Alert, AsyncStorage } from 'react-native'
@@ -9,6 +11,7 @@ import { EvaIconsPack } from '@ui-kitten/eva-icons'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import AuthContext from './src/context/Auth'
 import * as AuthSession from "expo-auth-session"
+import { getAuthUrl, getLogoutUrl } from './src/auth'
 
 export default () => {
   const [state, dispatch] = React.useReducer(
@@ -17,23 +20,27 @@ export default () => {
         case 'RESTORE_TOKEN':
           return {
             ...prevState,
+            userData: action.userData,
             token: action.token,
             isLoading: false
           }
         case 'SIGN_IN':
           return {
             isLoading: false,
-            token: action.token
+            token: action.token,
+            userData: action.userData
           }
         case 'SIGN_OUT':
           return {
             isLoading: false,
-            token: null
+            token: null,
+            userData: null
           }
       }
     },
     {
       isLoading: true,
+      userData: null,
       token: null
     }
   )
@@ -43,17 +50,34 @@ export default () => {
     const bootstrapAsync = async () => {
       try {
         const token = await AsyncStorage.getItem('token')
-  
-        dispatch({ type: 'SIGN_IN', token })
         
-        // TODO add token expiration validator
-        // if (exp > currentDate) {
-        //   dispatch({ type: 'SIGN_OUT' })
-        // } else {
-        //   dispatch({ type: 'SIGN_IN', userSettings: JSON.parse(userSettings) })
-        // }
+        if (!token) {
+          return dispatch({ type: 'RESTORE_TOKEN'})
+        }
+  
+        const decodedToken = jwtDecode(token)
+  
+        const secondsSinceEpoch = Math.round(Date.now() / 1000)
+        
+        if (decodedToken.exp < secondsSinceEpoch) {
+          await AsyncStorage.removeItem('token')
+          return dispatch({ type: 'SIGN_OUT' })
+        }
+  
+        const userId = decodedToken.sub
+  
+        const headers = {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        }
+  
+        const { data: userData } = await axios.get(`http://localhost:3000/user/${userId}`, { headers })
+        
+        dispatch({ type: 'RESTORE_TOKEN', token, userData })
+        
       } catch (e) {
         console.log(e)
+        Alert.alert('A problem occurred', e.message, [{ text: 'OK' }], { cancelable: false })
         dispatch({ type: 'SIGN_OUT' })
       }
     }
@@ -65,46 +89,47 @@ export default () => {
     () => ({
       signIn: async () => {
         try {
-        const auth0Domain = 'https://dev-lizyo13l.us.auth0.com'
-        const auth0ClientId = 'pNVKPxObaOYK8ENSNeLTNIjnaSNVYzui'
         
-        const redirectUrl = AuthSession.getRedirectUrl();
-        const params = new URLSearchParams({
-          client_id: auth0ClientId,
-          response_type: 'token',
-          scope: 'openid,profile,email',
-          redirect_uri: redirectUrl,
-        }).toString();
-        
-        let authUrl = `${auth0Domain}/authorize?${params}`
-        
-        console.log(`Redirect URL (add this to Auth0): ${redirectUrl}`);
-        console.log(`AuthURL is:  ${authUrl}`);
-  
         const result = await AuthSession.startAsync({
-          authUrl: authUrl
+          authUrl: getAuthUrl()
         });
         
-        console.log(result)
         
         if (result.type === 'success') {
-          console.log('entraaaa', result)
           let token = result.params.access_token;
+          
           await AsyncStorage.setItem('token', token)
-          dispatch({ type: 'SIGN_IN', token })
+  
+          const decodedJwtIdToken = jwtDecode(result.params.id_token);
+  
+          const headers = {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          }
+          
+          const { data: userData } = await axios.post('http://localhost:3000/user', {
+            id: decodedJwtIdToken.sub,
+            name: decodedJwtIdToken.name,
+            picture: decodedJwtIdToken.picture,
+            email: decodedJwtIdToken.email
+          }, { headers })
+          
+          dispatch({ type: 'SIGN_IN', token, userData })
         }
        
         
         } catch (e) {
-          
-          Alert.alert('A problem occurred', [{ text: 'OK' }], {
-            cancelable: false
-          })
+          console.log('error', e.message)
+          Alert.alert('A problem occurred', e.message, [{ text: 'OK' }], { cancelable: false })
         }
       },
       signOut: async () => {
-        // TODO hit auth0 logout url
+        await AuthSession.startAsync({
+          authUrl: getLogoutUrl()
+        });
+        
         await AsyncStorage.removeItem('token')
+        
         dispatch({ type: 'SIGN_OUT' })
       }
     }),
@@ -122,7 +147,7 @@ export default () => {
   }
   
   return (
-    <AuthContext.Provider value={authContext}>
+    <AuthContext.Provider value={{...authContext, userData: state.userData }}>
       <IconRegistry icons={EvaIconsPack} />
       <ApplicationProvider {...eva} theme={eva.light}>
         <SafeAreaView style={{ flex: 1 }}>{renderScreen()}</SafeAreaView>
