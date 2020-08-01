@@ -107,6 +107,12 @@ export default () => {
             'Authorization': `Bearer ${token}`
           }
           
+          console.log({
+            id: decodedJwtIdToken.sub,
+            name: decodedJwtIdToken.name,
+            picture: decodedJwtIdToken.picture,
+            email: decodedJwtIdToken.email
+          })
           const { data: userData } = await axios.post('http://localhost:3000/user', {
             id: decodedJwtIdToken.sub,
             name: decodedJwtIdToken.name,

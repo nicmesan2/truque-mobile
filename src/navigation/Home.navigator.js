@@ -3,7 +3,7 @@ import { createDrawerNavigator } from '@react-navigation/drawer'
 import {
   createBottomTabNavigator
 } from '@react-navigation/bottom-tabs';
-import DeviceNavigator from './Device.navigator.js'
+import ProductNavigator from './Product.navigator.js'
 import BottomNav from '../components/BottomNav/BottomNav'
 import HomeDrawer from '../components/Drawer/Drawer.js'
 
@@ -16,28 +16,23 @@ const Drawer = createDrawerNavigator();
 //     </Drawer.Navigator>
 // )
 
-const ROOT_ROUTES = ['Home', 'Layouts', 'Components', 'Themes'];
 
-const isOneOfRootRoutes = (currentRoute) => {
-  return ROOT_ROUTES.includes(currentRoute);
-};
-
-const TabBarVisibleOnRootScreenOptions = ({ route }) => {
-  const currentRoute = route.state && route.state.routes[route.state.index];
-  return { tabBarVisible: currentRoute && isOneOfRootRoutes(currentRoute) };
-};
-
-const HomeTabsNavigator = () => (
-  <BottomTab.Navigator
-    screenOptions={TabBarVisibleOnRootScreenOptions}
-    initialRouteName={DeviceNavigator}
-    tabBar={props => <BottomNav {...props} />}>
-    <BottomTab.Screen name='ProductList' component={DeviceNavigator}/>
-    <BottomTab.Screen name='Opportunities' component={DeviceNavigator}/>
-    <BottomTab.Screen name='Barter' component={DeviceNavigator}/>
-    <BottomTab.Screen name='MyThings' component={DeviceNavigator}/>
-  </BottomTab.Navigator>
-);
+const HomeTabsNavigator = (props) => {
+  return (
+    <BottomTab.Navigator
+      initialRouteName={ProductNavigator}
+      tabBar={(props, ...others) => <BottomNav {...props} others={others}/>}
+    >
+      <BottomTab.Screen
+        name='ProductList'
+        component={ProductNavigator}
+      />
+      <BottomTab.Screen name='Opportunities' component={ProductNavigator}/>
+      <BottomTab.Screen name='Barter' component={ProductNavigator}/>
+      <BottomTab.Screen name='MyThings' component={ProductNavigator}/>
+    </BottomTab.Navigator>
+  );
+}
 
 export const HomeNavigator = () => (
   <Drawer.Navigator
