@@ -13,6 +13,8 @@ import AuthContext from './src/context/Auth'
 import * as AuthSession from "expo-auth-session"
 import { getAuthUrl, getLogoutUrl } from './src/auth'
 
+const url = 'http://f59dc73d87c1.ngrok.io';
+
 export default () => {
   const [state, dispatch] = React.useReducer(
     (prevState, action) => {
@@ -71,7 +73,7 @@ export default () => {
           'Authorization': `Bearer ${token}`
         }
   
-        const { data: userData } = await axios.get(`http://localhost:3000/user/${userId}`, { headers })
+        const { data: userData } = await axios.get(`${url}/user/${userId}`, { headers })
         
         dispatch({ type: 'RESTORE_TOKEN', token, userData })
         
@@ -107,7 +109,7 @@ export default () => {
             'Authorization': `Bearer ${token}`
           }
           
-          const { data: userData } = await axios.post('http://localhost:3000/user', {
+          const { data: userData } = await axios.post(`${url}/user`, {
             id: decodedJwtIdToken.sub,
             name: decodedJwtIdToken.name,
             picture: decodedJwtIdToken.picture,

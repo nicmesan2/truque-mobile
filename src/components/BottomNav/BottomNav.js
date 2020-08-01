@@ -27,6 +27,12 @@ const BottomNav = (props) => {
           icon={renderIcon('bulb-outline')}
         />
         <BottomNavigationTab
+            title='Nuevo'
+            icon={({style}) => (
+                <Icon style={{ ...style, tintColor: '#158D4A'}} name={'camera-outline'}/>
+            )}
+        />
+        <BottomNavigationTab
           title='Mis Trueques'
           icon={renderIcon('flip-2-outline')}
         />

@@ -6,6 +6,7 @@ import {
 import DeviceNavigator from './Device.navigator.js'
 import BottomNav from '../components/BottomNav/BottomNav'
 import HomeDrawer from '../components/Drawer/Drawer.js'
+import CreateProduct from '../screens/Product/CreateProduct.screen';
 
 const BottomTab = createBottomTabNavigator();
 const Drawer = createDrawerNavigator();
@@ -34,6 +35,7 @@ const HomeTabsNavigator = () => (
     tabBar={props => <BottomNav {...props} />}>
     <BottomTab.Screen name='ProductList' component={DeviceNavigator}/>
     <BottomTab.Screen name='Opportunities' component={DeviceNavigator}/>
+    <BottomTab.Screen name='CreateProduct' component={CreateProduct}/>
     <BottomTab.Screen name='Barter' component={DeviceNavigator}/>
     <BottomTab.Screen name='MyThings' component={DeviceNavigator}/>
   </BottomTab.Navigator>
