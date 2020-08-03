@@ -7,6 +7,8 @@ import qualities from '../../utils/qualities';
 import * as Yup from 'yup'
 import * as ExpoImagePicker from 'expo-image-picker';
 import * as Permissions from 'expo-permissions';
+import { useIsFocused } from "@react-navigation/native";
+
 import http, { apiUrls } from '../../utils/http';
 
 const styles = StyleSheet.create({
@@ -35,7 +37,19 @@ const Square = ({ onPress, imageUri }) => (
     </TouchableHighlight>
 )
 
-const CreateProduct = () => {
+const CreateProduct = (props) => {
+    const isFocused = useIsFocused();
+
+    const navigateBack = () => {
+        props.navigation.navigate('ProductList')
+    }
+
+    const BackIcon = (props) => (
+        <Icon {...props} name='arrow-back-outline' />
+    );
+
+    const BackAction = () => <TopNavigationAction icon={BackIcon} onPress={navigateBack} />
+
     const [pickedImages, setPickedImages] = React.useState({});
     const [height, setHeight] = React.useState(20);
 
@@ -55,15 +69,11 @@ const CreateProduct = () => {
             .required(),
     })
 
-    const leftIcon = (props) => <Icon {...props} name="arrow-back-outline" />
-
     const renderSaveAction = (handleSubmit, disableButton) => () => (
         <Button disabled={disableButton} onPress={handleSubmit} appearance="ghost">
             Save
         </Button>
     )
-
-    const renderLeftIcon = () => <TopNavigationAction icon={leftIcon} />
 
     const renderLabel = (text) => <Text>{text}</Text>
 
@@ -104,6 +114,12 @@ const CreateProduct = () => {
         setHeight(height)
     }
 
+    React.useEffect(() => {
+        if (isFocused){
+            takeImage('image1')
+        }
+    }, [isFocused])
+
     const onSubmit = async(values) => {
 
         // const { data } = http.post(apiUrls.item.create, values)
@@ -119,7 +135,7 @@ const CreateProduct = () => {
                             <TopNavigation
                                 title="Agrega tu Producto"
                                 alignment="center"
-                                accessoryLeft={renderLeftIcon}
+                                accessoryLeft={BackAction}
                                 accessoryRight={renderSaveAction(handleSubmit, !isValid)}
                             />
                             <Divider />
@@ -145,7 +161,7 @@ const CreateProduct = () => {
                                 />
 
                                 <Input
-                                    status={errors.title && touched.title && 'danger'}
+                                    status={errors.description && touched.description && 'danger'}
                                     onBlur={() => setFieldTouched('description')}
                                     onChangeText={handleChange('description')}
                                     label={renderLabel('Descripcion')}
