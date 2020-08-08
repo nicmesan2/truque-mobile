@@ -1,4 +1,5 @@
 import React from 'react'
+import moment from 'moment';
 import {
     Avatar, Button,
     Card,
@@ -107,104 +108,90 @@ const myTrades = [
 ]
 
 const MyTrades = () => {
-    const renderItemHeader = user => {
+    const renderItemHeader = (user, i) => {
         return (
             <View style={styles.itemHeader}>
                 <Avatar style={{ width: 30, height: 30 }} source={{ uri: user.picture }} />
-                <Text category='c2' style={{ marginLeft: 5 }}>
-                    {user.name}
-                </Text>
+                {
+                    i === 0 && (
+                        <Text category='c2' style={{ marginLeft: 5 }}>
+                            {`${user.name} (Tu)`}
+                        </Text>)
+                }
             </View>
         );
     }
 
-    const renderItemFooter = user => (
-        <Layout style={{ flexDirection: 'row-reverse', padding: 10}}>
-            <Layout style={{ flexDirection: 'column'}}>
-                <Text style={{ fontSize: 10, marginBottom: 1 }} category="label" appearance='hint'>
-                    {`Items: ${user.products.length}`}
-                </Text>
+    const renderItemFooter = user => {
+        // TODO usar el locale de moment para tirar una fecha en espa;ol
+        const date = moment().format("D/M/YY - HH:MM:SS")
+
+        return (
+           <Layout style={{ flexDirection: 'column'}}>
+                <Layout style={{ flexDirection: 'column'}}>
+                    <Text style={{ fontSize: 8, margin: 2, padding: 2 }} category="label" appearance='hint'>
+                        {`Enviado dia: ${date}`}
+                    </Text>
+                </Layout>
+
+                <Layout style={{ flexDirection: 'column'}}>
+                    <Text style={{ fontSize: 8, margin: 2, padding: 2}} category="label" appearance='hint'>
+                        {`Items: ${user.products.length}`}
+                    </Text>
+                </Layout>
+
             </Layout>
-        </Layout>
-    );
+    )
+}
 
     const renderListItem = info => (
         <Layout style={{ marginBottom: 15 }}>
             <Layout style={{ flexDirection: 'row'}}>
-                <Layout style={{ width: '45%'}}>
-                    <Card
-                        style={styles.productItem}
-                        header={() => renderItemHeader(info.item.user1)}
-                        footer={() => renderItemFooter(info.item.user1)}
-                        onPress={() => console.log(info)}>
-                        <Layout style={{ width: 100}}>
-                        <FlatListSlider
-                            data={info.item.user1.products}
-                            timer={5000}
-                            height={150}
-                            onPress={item => alert(JSON.stringify(item))}
-                            indicatorContainerStyle={{position:'absolute', bottom: 20}}
-                            indicatorActiveColor={'#8e44ad'}
-                            indicatorInActiveColor={'#ffffff'}
-                            indicatorActiveWidth={30}
-                            animation
-                            autoscroll={false}
-                        />
+                {
+                    Object.keys(info.item).map((user, i) => (
+                        <>
+                        <Layout style={{ width: '45%'}}>
+                            <Card
+                                style={styles.productItem}
+                                header={() => renderItemHeader(info.item[user], i)}
+                                footer={() => renderItemFooter(info.item[user])}
+                                onPress={() => console.log(info)}>
+                                <Layout style={{ width: 100}}>
+                                    <FlatListSlider
+                                        data={info.item[user].products}
+                                        timer={5000}
+                                        height={150}
+                                        onPress={item => alert(JSON.stringify(item))}
+                                        indicatorContainerStyle={{position:'absolute', bottom: 20}}
+                                        indicatorActiveColor={'#8e44ad'}
+                                        indicatorInActiveColor={'#ffffff'}
+                                        indicatorActiveWidth={30}
+                                        animation
+                                        autoscroll={false}
+                                    />
+                                </Layout>
+                            </Card>
                         </Layout>
-                    </Card>
-                </Layout>
-                <Layout style={{ width: '10%', justifyContent: 'center', alignItems: 'center'}}>
-                    <Icon style={{ width: 25, height: 25, tintColor: 'white'}} fill='#8F9BB3' name="flip-2-outline" />
-                </Layout>
-                <Layout style={{ width: '45%'}}>
-                    <Card
-                        style={styles.productItem}
-                        header={() => renderItemHeader(info.item.user2)}
-                        footer={() => renderItemFooter(info.item.user2)}
-                        onPress={() => console.log(info)}>
-                        <FlatListSlider
-                            data={info.item.user2.products}
-                            timer={5000}
-                            height={150}
-                            onPress={item => alert(JSON.stringify(item))}
-                            indicatorContainerStyle={{position:'absolute', bottom: 20}}
-                            indicatorActiveColor={'#8e44ad'}
-                            indicatorInActiveColor={'#ffffff'}
-                            indicatorActiveWidth={30}
-                            animation
-                            autoscroll={false}
-                        />
-                    </Card>
-                </Layout>
+                        { i === 0 &&
+                        (<Layout style={{ width: '10%', justifyContent: 'center', alignItems: 'center'}}>
+                            <Icon style={{ width: 25, height: 25, tintColor: 'white'}} fill='#8F9BB3' name="flip-2-outline" />
+                        </Layout>)
+                        }
+                        </>
+                    ))
+                }
             </Layout>
-            <Layout style={{  paddingRight: 10, paddingLeft: 10}}>
-                <Button size="tiny" onPress={() => console.log('')}>Cancelar Trueque </Button>
-            </Layout>
-
+                <Layout style={{  paddingRight: 10, paddingLeft: 10}}>
+                    <Button size="tiny" onPress={() => console.log('')}>Cancelar Trueque </Button>
+                </Layout>
         </Layout>
     )
-    const renderDrawerIcon = (props) => <Icon {...props} name="menu-outline" />
 
-    const renderFilterIcon = (props) => <Icon {...props} name="options-outline" />
-
-    const renderDrawerAction = () => <TopNavigationAction icon={renderDrawerIcon} onPress={() => console.log('asd')} />
-
-    const renderFilterAction = () => <TopNavigationAction icon={renderFilterIcon} onPress={() => {}} />
     return (
-        <>
-            <TopNavigation
-                title="Mis Trueques"
-                alignment="center"
-                accessoryLeft={renderDrawerAction}
-                accessoryRight={renderFilterAction}
-            />
-            <Layout  style={{ flex: 1, padding: 10}}>
-                <List
-                    data={myTrades}
-                    renderItem={renderListItem}
-                />
-            </Layout>
-        </>
+        <List
+            data={myTrades}
+            renderItem={renderListItem}
+        />
     )
 }
 
@@ -221,7 +208,6 @@ const styles = StyleSheet.create({
         padding: 5,
         flex: 0,
         flexDirection: 'row',
-        // justifyContent: 'space-between',
         alignItems: 'center',
     },
     iconButton: {
