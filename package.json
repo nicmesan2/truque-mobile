@@ -5,7 +5,8 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "eject": "expo eject"
+    "eject": "expo eject",
+    "prettier": "prettier --config .prettierrc --write \"{.js,!(node)**/*.js}\""
   },
   "dependencies": {
     "@eva-design/eva": "^2.0.0",
@@ -21,10 +22,12 @@
     "expo-auth-session": "~1.4.0",
     "expo-status-bar": "^1.0.2",
     "jwt-decode": "^2.2.0",
+    "prettier": "^2.0.5",
     "react": "~16.11.0",
     "react-dom": "~16.11.0",
     "react-native": "https://github.com/expo/react-native/archive/sdk-38.0.2.tar.gz",
     "react-native-gesture-handler": "~1.6.0",
+    "react-native-raw-bottom-sheet": "^2.2.0",
     "react-native-reanimated": "~1.9.0",
     "react-native-safe-area-context": "~3.0.7",
     "react-native-screens": "~2.9.0",

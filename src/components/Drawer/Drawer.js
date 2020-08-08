@@ -31,7 +31,10 @@ const HomeDrawer = ({ navigation }) => {
       <View style={styles.profileContainer}>
         <Image
           style={{ width: '100%', height: '80%', resizeMode: 'contain' }}
-          source={{ uri: 'https://thumbs.dreamstime.com/b/barter-commerce-trade-transaction-economic-concept-exchange-swap-goods-vector-75134587.jpg' }}
+          source={{
+            uri:
+              'https://thumbs.dreamstime.com/b/barter-commerce-trade-transaction-economic-concept-exchange-swap-goods-vector-75134587.jpg'
+          }}
         />
       </View>
     </Layout>

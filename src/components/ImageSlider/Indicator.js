@@ -1,15 +1,15 @@
 import React from 'react'
-import {View, StyleSheet} from 'react-native';
+import { View, StyleSheet } from 'react-native'
 
 const Indicator = ({
-                               itemCount,
-                               currentIndex,
-                               indicatorStyle,
-                               indicatorContainerStyle,
-                               indicatorActiveColor,
-                               indicatorInActiveColor,
-                               indicatorActiveWidth = 6,
-                             }) => {
+  itemCount,
+  currentIndex,
+  indicatorStyle,
+  indicatorContainerStyle,
+  indicatorActiveColor,
+  indicatorInActiveColor,
+  indicatorActiveWidth = 6
+}) => {
   return (
     <View style={[styles.container, indicatorContainerStyle]}>
       {renderIndicator(
@@ -18,11 +18,11 @@ const Indicator = ({
         indicatorStyle,
         indicatorActiveColor,
         indicatorInActiveColor,
-        indicatorActiveWidth,
+        indicatorActiveWidth
       )}
     </View>
-  );
-};
+  )
+}
 
 export const renderIndicator = (
   count,
@@ -30,9 +30,9 @@ export const renderIndicator = (
   indicatorStyle,
   indicatorActiveColor,
   indicatorInActiveColor,
-  indicatorActiveWidth,
+  indicatorActiveWidth
 ) => {
-  let indicators = [];
+  let indicators = []
   for (let i = 0; i < count; i++) {
     indicators.push(
       <View
@@ -41,39 +41,42 @@ export const renderIndicator = (
           indicatorStyle,
           i === currentIndex
             ? indicatorActiveColor
-            ? {
-              ...styles.active,
-              ...{
-                backgroundColor: indicatorActiveColor,
-                width: indicatorActiveWidth,
-              },
-            }
-            : styles.active
+              ? {
+                  ...styles.active,
+                  ...{
+                    backgroundColor: indicatorActiveColor,
+                    width: indicatorActiveWidth
+                  }
+                }
+              : styles.active
             : {
-              ...styles.inactive,
-              ...{backgroundColor: indicatorInActiveColor},
-            },
+                ...styles.inactive,
+                ...{ backgroundColor: indicatorInActiveColor }
+              }
         ]}
-      />,
-    );
+      />
+    )
   }
-  return indicators;
-};
+  return indicators
+}
 
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     alignItems: 'center',
     alignSelf: 'center',
+    backgroundColor: 'rgba(0,0,0,0.63)',
+    padding: 5,
+    borderRadius: 10
   },
   indicator: {
     width: 6,
     height: 6,
     borderRadius: 3,
-    marginRight: 5,
+    marginRight: 5
   },
   active: {},
-  inactive: {},
-});
+  inactive: {}
+})
 
 export default Indicator

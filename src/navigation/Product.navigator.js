@@ -12,7 +12,7 @@ const ProductNavigator = ({ navigation, route }) => {
   } else {
     navigation.setOptions({ tabBarVisible: true })
   }
-  
+
   return (
     <Navigator headerMode="none">
       <Screen name="ProductList" component={ProductList} />
