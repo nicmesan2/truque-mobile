@@ -1,6 +1,6 @@
 import React from 'react';
-import { Layout, Button, BottomNavigationTab, Divider, Icon, BottomNavigation } from '@ui-kitten/components';
-import {Image, StyleSheet, TouchableHighlight} from 'react-native';
+import { Layout, BottomNavigationTab, Divider, Icon, BottomNavigation, withStyles } from '@ui-kitten/components';
+import { StyleSheet, TouchableHighlight} from 'react-native';
 
 const BottomNav = (props) => {
   const shouldHide = () => {
@@ -34,9 +34,7 @@ const BottomNav = (props) => {
       height: 40,
       justifyContent: "center",
       alignItems: "center",
-      borderWidth: 2,
-      borderColor:  "#d93535",
-      backgroundColor: "#d93535",
+      backgroundColor: props.eva.theme['color-danger-500'],
       borderRadius: 20,
     },
   });
@@ -47,7 +45,7 @@ const BottomNav = (props) => {
         <TouchableHighlight onPress={() => props.navigation.navigate('CreateProduct')}>
           <Layout style={styles.container}>
             <Layout style={styles.circleShape}>
-              <Icon style={{ width: 25, height: 25, tintColor: 'white'}} fill='#8F9BB3' name="camera-outline" />
+              <Icon style={{ width: 25, height: 25 }} fill='white' name="camera-outline" />
             </Layout>
           </Layout>
         </TouchableHighlight>
@@ -82,4 +80,4 @@ const BottomNav = (props) => {
   
 };
 
-export default BottomNav
+export default withStyles(BottomNav)

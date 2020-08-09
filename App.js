@@ -12,8 +12,7 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import AuthContext from './src/context/Auth'
 import * as AuthSession from "expo-auth-session"
 import { getAuthUrl, getLogoutUrl } from './src/auth'
-
-const url = 'http://e334d7060cc5.ngrok.io';
+import ENV from './env.js'
 
 export default () => {
   const [state, dispatch] = React.useReducer(
@@ -73,10 +72,7 @@ export default () => {
           'Authorization': `Bearer ${token}`
         }
 
-        console.log(`${url}/user/${userId}`)
-        console.log(`${url}/user/${userId}`)
-
-        const { data: userData } = await axios.get(`${url}/user/${userId}`, { headers })
+        const { data: userData } = await axios.get(`${ENV().apiUrl}/user/${userId}`, { headers })
         
         dispatch({ type: 'RESTORE_TOKEN', token, userData })
         
@@ -112,7 +108,7 @@ export default () => {
             'Authorization': `Bearer ${token}`
           }
           
-          const { data: userData } = await axios.post(`${url}/user`, {
+          const { data: userData } = await axios.post(`${ENV().apiUrl}/user`, {
             id: decodedJwtIdToken.sub,
             name: decodedJwtIdToken.name,
             picture: decodedJwtIdToken.picture,
