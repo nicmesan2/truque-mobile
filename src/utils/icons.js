@@ -1,4 +1,4 @@
-import React from 'react';
-import { Icon } from '@ui-kitten/components';
+import React from 'react'
+import { Icon } from '@ui-kitten/components'
 
-export const renderIcon = iconName => (style) => <Icon {...style} name={iconName} />
+export const renderIcon = (iconName) => (style) => <Icon {...style} name={iconName} />

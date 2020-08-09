@@ -15,7 +15,8 @@ import FlatListSlider from '../../components/ImageSlider/ImageSlider'
 const products = [
   {
     title: 'Mesa, un titulo mas largo',
-    description: 'Una mesa muy copada! Y no te digo lo que pensas si imaginas lo que ves perror. Una mesa muy copada! Y no te digo lo que pensas si imaginas lo que ves perror. Una mesa muy copada! Y no te digo lo que pensas si imaginas lo que ves perror.',
+    description:
+      'Una mesa muy copada! Y no te digo lo que pensas si imaginas lo que ves perror. Una mesa muy copada! Y no te digo lo que pensas si imaginas lo que ves perror. Una mesa muy copada! Y no te digo lo que pensas si imaginas lo que ves perror.',
     images: [
       'https://www.kmart.com.au/wcsstore/Kmart/images/ncatalog/f/3/42767503-1-f.jpg',
       'https://www.kmart.com.au/wcsstore/Kmart/images/ncatalog/f/3/42767503-2-f.jpg',
@@ -105,9 +106,12 @@ const ProductListScreen = ({ navigation }) => {
 
   const renderItemHeader = ({ item }) => (
     <FlatListSlider
-      data={item.images.map(image => ({ image }))}
+      data={item.images.map((image) => ({ image }))}
       timer={5000}
-      onPress={() => { console.log(item); onItemPress(item) }}
+      onPress={() => {
+        console.log(item)
+        onItemPress(item)
+      }}
       indicatorContainerStyle={{ position: 'absolute', bottom: 20 }}
       indicatorActiveColor={'#FFFFFF'}
       indicatorInActiveColor={'#7b7b7b'}

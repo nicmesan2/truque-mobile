@@ -25,30 +25,25 @@ const keyboardOffset = (height) =>
 
 const userItems = [
   {
-    image:
-      'https://www.kmart.com.au/wcsstore/Kmart/images/ncatalog/f/5/69850905-1-f.jpg',
+    image: 'https://www.kmart.com.au/wcsstore/Kmart/images/ncatalog/f/5/69850905-1-f.jpg',
     title: 'Mid Western Heel Boots\n',
     hasBeenTraded: true
   },
   {
-    image:
-      'https://www.kmart.com.au/wcsstore/Kmart/images/ncatalog/f/3/42941873-1-f.jpg',
+    image: 'https://www.kmart.com.au/wcsstore/Kmart/images/ncatalog/f/3/42941873-1-f.jpg',
     title: 'Sukin Cleansing Hand Wash 500ml'
   },
   {
-    image:
-      'https://www.kmart.com.au/wcsstore/Kmart/images/ncatalog/f/9/42894209-1-f.jpg',
+    image: 'https://www.kmart.com.au/wcsstore/Kmart/images/ncatalog/f/9/42894209-1-f.jpg',
     title: 'Entertainment Unit'
   },
   {
-    image:
-      'https://www.kmart.com.au/wcsstore/Kmart/images/ncatalog/f/2/42893622-1-f.jpg',
+    image: 'https://www.kmart.com.au/wcsstore/Kmart/images/ncatalog/f/2/42893622-1-f.jpg',
     title: 'Rattan Side Table',
     hasBeenTraded: true
   },
   {
-    image:
-      'https://www.kmart.com.au/wcsstore/Kmart/images/ncatalog/f/9/42901969-1-f.jpg',
+    image: 'https://www.kmart.com.au/wcsstore/Kmart/images/ncatalog/f/9/42901969-1-f.jpg',
     title: 'Bluetooth Headphones Grey'
   }
 ]
@@ -111,7 +106,15 @@ const ProductDetails3Screen = ({ navigation, route }) => {
                   {productDetails.description}
                 </Text>
                 <Divider />
-                <Layout style={{ flex: 1, flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', marginVertical: 20}}>
+                <Layout
+                  style={{
+                    flex: 1,
+                    flexDirection: 'row',
+                    justifyContent: 'flex-start',
+                    alignItems: 'center',
+                    marginVertical: 20
+                  }}
+                >
                   <Avatar source={{ uri: productDetails.user.picture }} />
                   <Text style={{ paddingLeft: 5 }}>{productDetails.user.name}</Text>
                 </Layout>

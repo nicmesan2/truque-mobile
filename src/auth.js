@@ -1,7 +1,5 @@
 import * as AuthSession from 'expo-auth-session'
-
-const auth0Domain = 'https://dev-lizyo13l.us.auth0.com'
-const auth0ClientId = 'pNVKPxObaOYK8ENSNeLTNIjnaSNVYzui'
+import ENV from '../env'
 
 const toQueryString = (params) =>
   '?' +
@@ -12,7 +10,7 @@ const toQueryString = (params) =>
 export const getAuthUrl = () => {
   const redirectUrl = AuthSession.getRedirectUrl()
   const params = toQueryString({
-    client_id: auth0ClientId,
+    client_id: ENV().auth0ClientId,
     response_type: 'token id_token',
     nonce: 'nonce', // ideally, this will be a random value
     scope: 'openid profile email picture',
@@ -21,16 +19,16 @@ export const getAuthUrl = () => {
     prompt: 'select_account'
   })
 
-  return `${auth0Domain}/authorize${params}`
+  return `${ENV().auth0Domain}/authorize${params}`
 }
 
 export const getLogoutUrl = () => {
   const redirectUrl = AuthSession.getRedirectUrl()
 
   const params = toQueryString({
-    client_id: auth0ClientId,
+    client_id: ENV().auth0ClientId,
     returnTo: redirectUrl
   })
 
-  return `${auth0Domain}/v2/logout${params}`
+  return `${ENV().auth0Domain}/v2/logout${params}`
 }
