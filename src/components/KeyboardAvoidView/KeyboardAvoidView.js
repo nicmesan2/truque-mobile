@@ -1,86 +1,67 @@
-import React from 'react';
-import {
-  Animated,
-  Easing,
-  Keyboard,
-  Platform,
-  TouchableWithoutFeedback,
-} from 'react-native';
-
+import React from 'react'
+import { Animated, Easing, Keyboard, Platform, TouchableWithoutFeedback } from 'react-native'
 
 const animationDuration = Platform.select({
   android: 160,
-  default: 250,
-});
+  default: 250
+})
 
 const showEvent = Platform.select({
   android: 'keyboardDidShow',
-  default: 'keyboardWillShow',
-});
+  default: 'keyboardWillShow'
+})
 
 const hideEvent = Platform.select({
   android: 'keyboardDidHide',
-  default: 'keyboardWillHide',
-});
+  default: 'keyboardWillHide'
+})
 
 const defaultProps = {
-  offset: height => height,
-};
+  offset: (height) => height
+}
 
-const translateY = new Animated.Value(0);
+const translateY = new Animated.Value(0)
 
 const KeyboardAvoidingView = (props) => {
-  
-  const { style, offset, autoDismiss, ...viewProps } = { ...defaultProps, ...props };
-  
+  const { style, offset, autoDismiss, ...viewProps } = { ...defaultProps, ...props }
+
   React.useEffect(() => {
-    const showEventSubscription = Keyboard.addListener(
-      showEvent,
-      onKeyboardShow,
-    );
-    const hideEventSubscription = Keyboard.addListener(
-      hideEvent,
-      onKeyboardHide,
-    );
+    const showEventSubscription = Keyboard.addListener(showEvent, onKeyboardShow)
+    const hideEventSubscription = Keyboard.addListener(hideEvent, onKeyboardHide)
     return () => {
-      showEventSubscription.remove();
-      hideEventSubscription.remove();
-    };
-  });
-  
+      showEventSubscription.remove()
+      hideEventSubscription.remove()
+    }
+  })
+
   const onKeyboardShow = (event) => {
-    const offsetValue = -offset(event.endCoordinates.height);
-    createTranslateAnimation({ offsetValue }).start();
-  };
-  
+    const offsetValue = -offset(event.endCoordinates.height)
+    createTranslateAnimation({ offsetValue }).start()
+  }
+
   const onKeyboardHide = () => {
-    const offsetValue = 0;
-    createTranslateAnimation({ offsetValue }).start();
-  };
-  
+    const offsetValue = 0
+    createTranslateAnimation({ offsetValue }).start()
+  }
+
   const createTranslateAnimation = (params) => {
     return Animated.timing(translateY, {
       toValue: params.offsetValue,
       duration: animationDuration,
-      easing: Easing.linear,
-    });
-  };
-  
+      easing: Easing.linear
+    })
+  }
+
   const transformsStyle = {
     // @ts-ignore
-    transform: [{ translateY }],
-  };
-  
+    transform: [{ translateY }]
+  }
+
   return (
-    <TouchableWithoutFeedback
-      disabled={!autoDismiss}
-      onPress={Keyboard.dismiss}>
-      <Animated.View
-        style={[transformsStyle, style]}
-        {...viewProps}
-      />
+    <TouchableWithoutFeedback disabled={!autoDismiss} onPress={Keyboard.dismiss}>
+      <Animated.View style={[transformsStyle, style]} {...viewProps} />
     </TouchableWithoutFeedback>
-  );
-};
+  )
+}
 
 export default KeyboardAvoidingView

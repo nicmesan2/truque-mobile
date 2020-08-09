@@ -13,7 +13,7 @@ import AuthContext from './src/context/Auth'
 import * as AuthSession from "expo-auth-session"
 import { getAuthUrl, getLogoutUrl } from './src/auth'
 
-const url = 'http://e6488784ef20.ngrok.io';
+const url = 'http://e334d7060cc5.ngrok.io';
 
 export default () => {
   const [state, dispatch] = React.useReducer(
