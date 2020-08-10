@@ -5,8 +5,8 @@ import { Drawer, Layout, Icon, DrawerItem } from '@ui-kitten/components'
 import AuthContext from '../../context/Auth'
 
 const MENU_ITEMS = [
-  { title: 'Settings', icon: (style) => <Icon {...style} name="settings-outline" /> },
-  { title: 'Logout', icon: (style) => <Icon {...style} name="log-out-outline" /> }
+  { title: 'Configuracion', icon: (style) => <Icon {...style} name="settings-outline" /> },
+  { title: 'Cerrar sesion', icon: (style) => <Icon {...style} name="log-out-outline" /> }
 ]
 
 const HomeDrawer = ({ navigation }) => {

@@ -28,6 +28,8 @@ const BottomNav = (props) => {
       alignItems: 'center'
     },
     circleShape: {
+      position: 'relative',
+      top: 20,
       width: 40,
       height: 40,
       justifyContent: 'center',
@@ -42,9 +44,8 @@ const BottomNav = (props) => {
       <Layout
         style={{
           justifyContent: 'center',
-          backgroundColor: '#FFFFFF',
+          backgroundColor: props.eva.theme['color-basic-200'],
           alignItems: 'center',
-          marginBottom: -10,
           zIndex: 99
         }}
       >

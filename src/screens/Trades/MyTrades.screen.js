@@ -15,34 +15,6 @@ import {
 import FlatListSlider from '../../components/ImageSlider/ImageSlider'
 import { Dimensions, StyleSheet, View } from 'react-native'
 
-const data = [
-  {
-    image:
-      'https://images.unsplash.com/photo-1567226475328-9d6baaf565cf?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60',
-    desc: 'Silent Waters in the mountains in midst of Himilayas'
-  },
-  {
-    image:
-      'https://images.unsplash.com/photo-1455620611406-966ca6889d80?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1130&q=80',
-    desc: 'Red fort in India New Delhi is a magnificient masterpeiece of humans'
-  },
-  {
-    image:
-      'https://images.unsplash.com/photo-1477587458883-47145ed94245?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80',
-    desc: 'Sample Description below the image for representation purpose only'
-  },
-  {
-    image:
-      'https://images.unsplash.com/photo-1568700942090-19dc36fab0c4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80',
-    desc: 'Sample Description below the image for representation purpose only'
-  },
-  {
-    image:
-      'https://images.unsplash.com/photo-1584271854089-9bb3e5168e32?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1051&q=80',
-    desc: 'Sample Description below the image for representation purpose only'
-  }
-]
-
 const myTrades = [
   {
     user1: {
@@ -51,7 +23,7 @@ const myTrades = [
       products: [
         {
           image:
-            'https://images.unsplash.com/photo-1568700942090-19dc36fab0c4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80',
+            'https://www.kmart.com.au/wcsstore/Kmart/images/ncatalog/f/3/42941873-1-f.jpg',
           desc: 'Sample Description below the image for representation purpose only'
         }
       ]
@@ -62,7 +34,7 @@ const myTrades = [
       products: [
         {
           image:
-            'https://images.unsplash.com/photo-1568700942090-19dc36fab0c4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80',
+            'https://www.kmart.com.au/wcsstore/Kmart/images/ncatalog/f/2/42893622-1-f.jpg',
           desc: 'Sample Description below the image for representation purpose only'
         }
       ]
@@ -75,7 +47,7 @@ const myTrades = [
       products: [
         {
           image:
-            'https://images.unsplash.com/photo-1568700942090-19dc36fab0c4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80',
+            'https://www.kmart.com.au/wcsstore/Kmart/images/ncatalog/f/3/42941873-1-f.jpg',
           desc: 'Sample Description below the image for representation purpose only'
         }
       ]
@@ -86,12 +58,12 @@ const myTrades = [
       products: [
         {
           image:
-            'https://images.unsplash.com/photo-1568700942090-19dc36fab0c4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80',
+            'https://www.kmart.com.au/wcsstore/Kmart/images/ncatalog/f/2/42893622-1-f.jpg',
           desc: 'Sample Description below the image for representation purpose only'
         },
         {
           image:
-            'https://images.unsplash.com/photo-1568700942090-19dc36fab0c4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80',
+            'https://www.kmart.com.au/wcsstore/Kmart/images/ncatalog/f/3/42941873-1-f.jpg',
           desc: 'Sample Description below the image for representation purpose only'
         }
       ]
@@ -135,11 +107,11 @@ const MyTrades = () => {
   }
 
   const renderListItem = (info) => (
-    <Layout style={{ marginBottom: 15 }}>
+    <Layout>
       <Layout style={{ flexDirection: 'row' }}>
         {Object.keys(info.item).map((user, i) => (
           <>
-            <Layout style={{ width: '45%' }}>
+            <Layout style={{ width: '40%' }}>
               <Card
                 style={styles.productItem}
                 header={() => renderItemHeader(info.item[user], i)}
@@ -149,13 +121,10 @@ const MyTrades = () => {
                 <Layout style={{ width: 100 }}>
                   <FlatListSlider
                     data={info.item[user].products}
+                    height={100}
                     timer={5000}
-                    height={150}
+                    width={100}
                     onPress={(item) => alert(JSON.stringify(item))}
-                    indicatorContainerStyle={{ position: 'absolute', bottom: 20 }}
-                    indicatorActiveColor={'#8e44ad'}
-                    indicatorInActiveColor={'#ffffff'}
-                    indicatorActiveWidth={30}
                     animation
                     autoscroll={false}
                   />
@@ -163,22 +132,23 @@ const MyTrades = () => {
               </Card>
             </Layout>
             {i === 0 && (
-              <Layout style={{ width: '10%', justifyContent: 'center', alignItems: 'center' }}>
-                <Icon style={{ width: 25, height: 25, tintColor: 'white' }} fill="#8F9BB3" name="flip-2-outline" />
+              <Layout style={{ width: '5%', justifyContent: 'center', alignItems: 'center' }}>
+                <Icon style={{ width: 25, height: 25, tintColor: 'white', marginBottom: 10 }} fill="#8F9BB3" name="arrow-forward" />
               </Layout>
             )}
+            
           </>
         ))}
-      </Layout>
-      <Layout style={{ paddingRight: 10, paddingLeft: 10 }}>
         <Button size="tiny" onPress={() => console.log('')}>
-          Cancelar Trueque{' '}
+          Cancelar
         </Button>
       </Layout>
     </Layout>
   )
 
-  return <List data={myTrades} renderItem={renderListItem} />
+  return (
+    <List data={myTrades} renderItem={renderListItem} />
+  )
 }
 
 const styles = StyleSheet.create({

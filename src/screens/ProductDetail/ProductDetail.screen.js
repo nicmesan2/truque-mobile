@@ -48,7 +48,7 @@ const userItems = [
   }
 ]
 
-const ProductDetails3Screen = ({ navigation, route }) => {
+const ProductDetails3Screen = ({ navigation, route, editable }) => {
   const refRBSheet = useRef()
   const productDetails = route.params.productDetails
 
@@ -70,6 +70,16 @@ const ProductDetails3Screen = ({ navigation, route }) => {
     )
   }
 
+  const renderEditIcon = ({ style }) => <Icon style={{ ...style }} name="edit-outline" />
+
+  const renderEditAction = () => {
+    if (route.params.editable) {
+      return <TopNavigationAction onPress={() => navigation.navigate('MyItemEdit', { initialValues: productDetails })} icon={renderEditIcon} />
+    }
+
+    return null
+  }
+
   const renderItem = ({ item }) => {
     return (
       <ListItem
@@ -83,7 +93,7 @@ const ProductDetails3Screen = ({ navigation, route }) => {
 
   return (
     <Layout style={{ flex: 1 }}>
-      <TopNavigation title="Product Details" accessoryLeft={BackAction} />
+      <TopNavigation title="Listado" accessoryLeft={BackAction} accessoryRight={renderEditAction} />
       <KeyboardAvoidingView style={styles.container} offset={keyboardOffset}>
         <Layout style={styles.header}>
           <ScrollView>
@@ -92,15 +102,15 @@ const ProductDetails3Screen = ({ navigation, route }) => {
                 data={productDetails.images.map((image) => ({ image }))}
                 timer={5000}
                 onPress={() => {}}
-                indicatorContainerStyle={{ position: 'absolute', bottom: 20 }}
-                indicatorActiveColor={'#FFFFFF'}
-                indicatorInActiveColor={'#7b7b7b'}
                 animation
               />
               <Layout style={styles.detailsContainer} level="1">
                 <Text category="h6">{productDetails.title}</Text>
                 <Text style={styles.subtitle} appearance="hint" category="p2">
                   {productDetails.subtitle}
+                </Text>
+                <Text style={styles.quality} appearance="hint">
+                  {`Condicion del producto: ${productDetails.quality}`}
                 </Text>
                 <Text style={styles.description} appearance="hint">
                   {productDetails.description}
@@ -119,27 +129,31 @@ const ProductDetails3Screen = ({ navigation, route }) => {
                   <Text style={{ paddingLeft: 5 }}>{productDetails.user.name}</Text>
                 </Layout>
                 <MapSnapshot lat={-34.572558} lng={-58.432502} />
-                <RBSheet
-                  dragFromTopOnly
-                  closeOnDragDown
-                  ref={refRBSheet}
-                  height={300}
-                  openDuration={250}
-                  customStyles={{
-                    container: {
-                      justifyContent: 'center',
-                      alignItems: 'center'
-                    }
-                  }}
-                >
-                  <List style={{ width: '100%' }} data={userItems} renderItem={renderItem} />
-                </RBSheet>
+                {!route.params.editable ? (
+                  <RBSheet
+                    dragFromTopOnly
+                    closeOnDragDown
+                    ref={refRBSheet}
+                    height={300}
+                    openDuration={250}
+                    customStyles={{
+                      container: {
+                        justifyContent: 'center',
+                        alignItems: 'center'
+                      }
+                    }}
+                  >
+                    <List style={{ width: '100%' }} data={userItems} renderItem={renderItem} />
+                  </RBSheet>
+                ) : null}
               </Layout>
             </Layout>
           </ScrollView>
-          <Layout style={{ padding: 10 }}>
-            <Button onPress={() => refRBSheet.current.open()}>Lo quiero!</Button>
-          </Layout>
+          {!route.params.editable ? (
+            <Layout style={{ padding: 10 }}>
+              <Button onPress={() => refRBSheet.current.open()}>Lo quiero!</Button>
+            </Layout>
+          ) : null}
         </Layout>
       </KeyboardAvoidingView>
     </Layout>
@@ -178,6 +192,9 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 24,
     right: 16
+  },
+  quality: {
+    fontWeight: 'bold'
   },
   description: {
     marginVertical: 16

@@ -5,7 +5,7 @@ import ProductNavigator from './Product.navigator.js'
 import TradesNavigator from './Trades.navigator.js'
 import BottomNav from '../components/BottomNav/BottomNav'
 import HomeDrawer from '../components/Drawer/Drawer.js'
-import CreateProduct from '../screens/Product/CreateProduct.screen'
+import MyItemsNavigator from './MyItems.navigator.js'
 
 const BottomTab = createBottomTabNavigator()
 const Drawer = createDrawerNavigator()
@@ -19,7 +19,7 @@ const HomeTabsNavigator = () => {
       <BottomTab.Screen name="ProductList" component={ProductNavigator} />
       <BottomTab.Screen name="MyThings" component={TradesNavigator} />
       <BottomTab.Screen name="Opportunities" component={ProductNavigator} />
-      <BottomTab.Screen name="Barter" component={ProductNavigator} />
+      <BottomTab.Screen name="MyItems" component={MyItemsNavigator} />
     </BottomTab.Navigator>
   )
 }

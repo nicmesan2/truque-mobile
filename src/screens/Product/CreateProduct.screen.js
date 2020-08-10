@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Image, StyleSheet, TouchableWithoutFeedback, AsyncStorage } from 'react-native'
+import { Image, StyleSheet, TouchableWithoutFeedback, AsyncStorage, Alert } from 'react-native'
 import {
   Layout,
   Text,
@@ -61,7 +61,6 @@ const Square = ({ onPress, imageUri }) => (
 
 const CreateProduct = (props) => {
   const [isLoading, setIsLoading] = useState(false)
-  const isFocused = useIsFocused()
 
   const navigateBack = () => {
     props.navigation.goBack()
@@ -70,40 +69,32 @@ const CreateProduct = (props) => {
   const BackIcon = (props) => <Icon {...props} name="arrow-back-outline" />
 
   const BackAction = () => <TopNavigationAction icon={BackIcon} onPress={navigateBack} />
+  console.log('--', props.route.params?.initialValues?.images)
 
-  const [pickedImages, setPickedImages] = React.useState([])
+  const [pickedImages, setPickedImages] = React.useState(props.route.params?.initialValues?.images.map(img => ({ uri: img})) || [])
   const [height, setHeight] = React.useState(20)
 
   const validationSchema = Yup.object({
     title: Yup.string().required(),
-    category: Yup.object()
-      .shape({
-        value: Yup.string().required(),
-        label: Yup.string().required()
-      })
-      .required(),
-    quality: Yup.object()
-      .shape({
-        value: Yup.string().required(),
-        label: Yup.string().required()
-      })
-      .required()
+    category: Yup.string().required(),
+    quality: Yup.string().required(),
+    description: Yup.string().required(),
   })
 
   const renderSaveAction = (handleSubmit, disableButton) => () => (
     <Button disabled={disableButton} onPress={handleSubmit} appearance="ghost">
-      Save
+      Guardar
     </Button>
   )
 
   const renderLabel = (text) => <Text>{text}</Text>
 
   const renderCategoriesOptions = () => {
-    return categories.map((category) => <SelectItem key={category.value} title={category.label} />)
+    return categories.map((category) => <SelectItem key={category} title={category} />)
   }
 
   const renderQualitiesOptions = () => {
-    return qualities.map((quality) => <SelectItem key={quality.value} title={quality.label} />)
+    return qualities.map((quality) => <SelectItem key={quality} title={quality} />)
   }
 
   const uploadImageOnS3 = async (file) => {
@@ -195,11 +186,12 @@ const CreateProduct = (props) => {
       props.navigation.goBack()
     } catch (err) {
       setIsLoading(false)
+      Alert.alert('Occurio un problema :(', err, [{ text: 'OK' }], { cancelable: false })
       console.log('error: ', err)
     }
   }
 
-  console.log(pickedImages)
+  const initialValues = props.route.params?.initialValues || {}
 
   return (
     <Layout style={{ flex: 1, padding: 10 }}>
@@ -210,13 +202,12 @@ const CreateProduct = (props) => {
           </Card>
         </Modal>
       ) : null}
-      <Formik initialValues={{}} onSubmit={onSubmit} validationSchema={validationSchema}>
+      <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={validationSchema}>
         {({ handleChange, errors, handleSubmit, values, setFieldValue, isValid, touched, setFieldTouched }) => {
           return (
             <>
               <TopNavigation
-                title="Agrega tu Producto"
-                alignment="center"
+                title="Cancelar"
                 accessoryLeft={BackAction}
                 accessoryRight={renderSaveAction(handleSubmit, !isValid)}
               />
@@ -260,7 +251,7 @@ const CreateProduct = (props) => {
                   status={errors.category && touched.category && 'danger'}
                   onBlur={() => setFieldTouched('category')}
                   placeholder="Elige una categoria"
-                  value={values?.category?.label}
+                  value={values?.category}
                   disabled={!categories.length}
                   onSelect={({ row }) => {
                     setFieldValue('category', categories[row])
@@ -275,7 +266,7 @@ const CreateProduct = (props) => {
                   status={errors.quality && touched.quality && 'danger'}
                   onBlur={() => setFieldTouched('quality')}
                   placeholder="¿En que condiciones esta?"
-                  value={values?.quality?.label}
+                  value={values?.quality}
                   disabled={!qualities.length}
                   onSelect={({ row }) => {
                     setFieldValue('quality', qualities[row])

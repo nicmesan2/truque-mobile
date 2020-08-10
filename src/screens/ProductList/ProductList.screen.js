@@ -26,7 +26,8 @@ const products = [
     user: {
       name: 'Nicolas Medina',
       picture: 'https://lh3.googleusercontent.com/a-/AOh14GjyEjZZtJ6QqClUj6REGVv5iRzi8-byNDN4fYWS4Q'
-    }
+    },
+    quality: 'Usado'
   },
   {
     title: 'Mesa',
@@ -40,7 +41,8 @@ const products = [
     user: {
       name: 'Nicolas Medina',
       picture: 'https://lh3.googleusercontent.com/a-/AOh14GjyEjZZtJ6QqClUj6REGVv5iRzi8-byNDN4fYWS4Q'
-    }
+    },
+    quality: 'Usado'
   },
   {
     title: 'Mesa, otro titulo que es largo',
@@ -54,7 +56,8 @@ const products = [
     user: {
       name: 'Nicolas Medina',
       picture: 'https://lh3.googleusercontent.com/a-/AOh14GjyEjZZtJ6QqClUj6REGVv5iRzi8-byNDN4fYWS4Q'
-    }
+    },
+    quality: 'Como nuevo'
   },
   {
     title: 'Mesa',
@@ -68,7 +71,8 @@ const products = [
     user: {
       name: 'Nicolas Medina',
       picture: 'https://lh3.googleusercontent.com/a-/AOh14GjyEjZZtJ6QqClUj6REGVv5iRzi8-byNDN4fYWS4Q'
-    }
+    },
+    quality: 'Usado'
   },
   {
     title: 'Mesa',
@@ -82,7 +86,8 @@ const products = [
     user: {
       name: 'Nicolas Medina',
       picture: 'https://lh3.googleusercontent.com/a-/AOh14GjyEjZZtJ6QqClUj6REGVv5iRzi8-byNDN4fYWS4Q'
-    }
+    },
+    quality: 'Como nuevo'
   }
 ]
 
@@ -106,6 +111,7 @@ const ProductListScreen = ({ navigation }) => {
 
   const renderItemHeader = ({ item }) => (
     <FlatListSlider
+      width={180}
       data={item.images.map((image) => ({ image }))}
       timer={5000}
       onPress={() => {
