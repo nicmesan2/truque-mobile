@@ -87,9 +87,7 @@ const MyItemsScreen = (props) => {
       accessoryLeft={() => ItemImage(item.images[0])}
     />
   )
-  
-  console.log('---', userData)
-  
+
   return (
     <>
       <TopNavigation title="Mis Cosas" alignment="center" />
