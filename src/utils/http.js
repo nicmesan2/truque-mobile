@@ -25,7 +25,8 @@ instance.interceptors.request.use(
 
 export const apiUrls = {
   item: {
-    create: '/item'
+    create: '/item',
+    get: '/item'
   }
 }
 

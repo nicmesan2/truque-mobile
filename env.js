@@ -1,6 +1,6 @@
 const variables = {
   development: {
-    apiUrl: 'http://b510e7cfff91.ngrok.io',
+    apiUrl: 'http://localhost:3000',
     googleApiKey: 'AIzaSyB8wH1j8tJvQ45CWHP0M6o0CQKL1cXy8Rs',
     aws_key: 'AKIATCUMZWTBYAEFNAQV',
     aws_secret_key: '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',
@@ -9,7 +9,7 @@ const variables = {
     auth0ClientId: 'pNVKPxObaOYK8ENSNeLTNIjnaSNVYzui'
   },
   production: {
-    apiUrl: 'http://b510e7cfff91.ngrok.io',
+    apiUrl: 'http://localhost:3000',
     googleApiKey: 'AIzaSyB8wH1j8tJvQ45CWHP0M6o0CQKL1cXy8Rs',
     aws_key: 'AKIATCUMZWTBYAEFNAQV',
     aws_secret_key: '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',
