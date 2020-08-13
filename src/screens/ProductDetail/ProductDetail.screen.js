@@ -16,6 +16,7 @@ import MapSnapshot from '../../components/MapSnapshot/MapSnapshot'
 import FlatListSlider from '../../components/ImageSlider/ImageSlider'
 import KeyboardAvoidingView from '../../components/KeyboardAvoidView/KeyboardAvoidView'
 import RBSheet from 'react-native-raw-bottom-sheet'
+import SwapChooser from './SwapChooser'
 
 const keyboardOffset = (height) =>
   Platform.select({
@@ -131,19 +132,12 @@ const ProductDetails3Screen = ({ navigation, route, editable }) => {
                 <MapSnapshot lat={-34.572558} lng={-58.432502} />
                 {!route.params.editable ? (
                   <RBSheet
-                    dragFromTopOnly
                     closeOnDragDown
+                    dragFromTopOnly
                     ref={refRBSheet}
-                    height={300}
                     openDuration={250}
-                    customStyles={{
-                      container: {
-                        justifyContent: 'center',
-                        alignItems: 'center'
-                      }
-                    }}
                   >
-                    <List style={{ width: '100%' }} data={userItems} renderItem={renderItem} />
+                    <SwapChooser itemImage={productDetails.images[0]} />
                   </RBSheet>
                 ) : null}
               </Layout>
