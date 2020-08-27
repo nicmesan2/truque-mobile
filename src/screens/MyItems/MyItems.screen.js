@@ -1,7 +1,7 @@
 import React from 'react'
 import { Image } from 'react-native'
 import { TopNavigation, Divider, ListItem, List, Icon } from '@ui-kitten/components'
-import AuthContext from "../../context/Auth"
+import AuthContext from "../../providers/AuthProvider/contexts/AuthContext"
 
 const userItems = [
   {
@@ -71,6 +71,7 @@ const userItems = [
 
 const MyItemsScreen = (props) => {
   const { userData } = React.useContext(AuthContext)
+  console.log('userdata', userData)
   const renderItemAccessory = (props) => (
     <Icon {...props} size="tiny" name="chevron-right">
       FOLLOW

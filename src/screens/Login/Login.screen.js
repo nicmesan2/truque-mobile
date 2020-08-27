@@ -1,6 +1,6 @@
 import React from 'react'
 import { Layout, Button } from '@ui-kitten/components'
-import AuthContext from '../../context/Auth'
+import AuthContext from '../../providers/AuthProvider/contexts/AuthContext.js'
 
 const Auth0LoginContainer = () => {
   const { signIn } = React.useContext(AuthContext)

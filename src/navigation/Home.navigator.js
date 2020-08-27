@@ -4,6 +4,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import ProductNavigator from './Product.navigator.js'
 import TradesNavigator from './Trades.navigator.js'
 import BottomNav from '../components/BottomNav/BottomNav'
+import ChatScreen from '../screens/Chat/Chat.screen.js'
 import HomeDrawer from '../components/Drawer/Drawer.js'
 import MyItemsNavigator from './MyItems.navigator.js'
 
@@ -18,7 +19,7 @@ const HomeTabsNavigator = () => {
     >
       <BottomTab.Screen name="ProductList" component={ProductNavigator} />
       <BottomTab.Screen name="MyThings" component={TradesNavigator} />
-      <BottomTab.Screen name="Opportunities" component={ProductNavigator} />
+      <BottomTab.Screen name="Opportunities" component={ChatScreen} />
       <BottomTab.Screen name="MyItems" component={MyItemsNavigator} />
     </BottomTab.Navigator>
   )

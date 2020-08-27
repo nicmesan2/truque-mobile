@@ -2,7 +2,7 @@ import React from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { StyleSheet, View, Image } from 'react-native'
 import { Drawer, Layout, Icon, DrawerItem } from '@ui-kitten/components'
-import AuthContext from '../../context/Auth'
+import AuthContext from '../../providers/AuthProvider/contexts/AuthContext.js'
 
 const MENU_ITEMS = [
   { title: 'Configuracion', icon: (style) => <Icon {...style} name="settings-outline" /> },

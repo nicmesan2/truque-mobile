@@ -1,11 +1,10 @@
 import axios from 'axios'
 import httpAdapter from 'axios/lib/adapters/http'
 import { AsyncStorage } from 'react-native'
-
-const url = 'http://e6488784ef20.ngrok.io'
+import ENV from '../../env'
 
 const instance = axios.create({
-  baseURL: url,
+  baseURL: ENV().apiUrl,
   adapter: httpAdapter
 })
 
@@ -27,6 +26,9 @@ export const apiUrls = {
   item: {
     create: '/item',
     get: '/item'
+  },
+  chat: {
+    login: '/firebase'
   }
 }
 
